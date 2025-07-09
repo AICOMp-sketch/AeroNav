@@ -1,0 +1,254 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+
+:root {
+    --navbar-width-open: 280px;
+    --navbar-width-closed: 80px; /* For a potentially collapsed state, not fully implemented here but good for future */
+    --navbar-bg-color: #2c3e50; /* Dark blue/grey */
+    --navbar-link-color: #ecf0f1; /* Light grey */
+    --navbar-link-hover-bg: rgba(255, 255, 255, 0.1);
+    --navbar-active-color: #3498db; /* Blue accent */
+    --navbar-active-bg: rgba(52, 152, 219, 0.2);
+    --text-color-primary: #333;
+    --text-color-secondary: #555;
+    --shadow-light: 0 5px 15px rgba(0, 0, 0, 0.1);
+    --transition-speed: 0.3s;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f4f7f6; /* Light background for content */
+    display: flex;
+    min-height: 100vh;
+    overflow-x: hidden; /* Prevent horizontal scroll when navbar is open */
+}
+
+/* --- Side Navbar Styles --- */
+.side-navbar {
+    width: var(--navbar-width-open);
+    background-color: var(--navbar-bg-color);
+    color: var(--navbar-link-color);
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    transform: translateX(-100%); /* Start off-screen */
+    transition: transform var(--transition-speed) ease-in-out;
+    box-shadow: var(--shadow-light);
+    display: flex;
+    flex-direction: column;
+    z-index: 1000; /* Ensure it's above other content */
+}
+
+.side-navbar.open {
+    transform: translateX(0); /* Slide into view */
+}
+
+.navbar-header {
+    padding: 25px 20px;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    position: relative; /* For the close button */
+}
+
+.navbar-logo {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 15px;
+    object-fit: cover;
+    border: 2px solid var(--navbar-active-color); /* A subtle highlight */
+}
+
+.navbar-title {
+    font-size: 1.5em;
+    font-weight: 600;
+    color: var(--navbar-active-color); /* Make title stand out */
+}
+
+.close-btn {
+    background: none;
+    border: none;
+    color: var(--navbar-link-color);
+    font-size: 2em;
+    cursor: pointer;
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    transition: color var(--transition-speed) ease;
+    opacity: 0.7;
+}
+
+.close-btn:hover {
+    color: white;
+    opacity: 1;
+}
+
+.navbar-menu {
+    list-style: none;
+    flex-grow: 1; /* Allows menu to take available space */
+    padding-top: 20px;
+}
+
+.navbar-menu li {
+    margin-bottom: 5px;
+}
+
+.nav-link {
+    display: flex;
+    align-items: center;
+    padding: 15px 20px;
+    color: var(--navbar-link-color);
+    text-decoration: none;
+    font-size: 1.1em;
+    transition: background-color var(--transition-speed) ease, color var(--transition-speed) ease;
+    border-left: 5px solid transparent; /* For active indicator */
+}
+
+.nav-icon {
+    font-size: 1.3em;
+    margin-right: 15px;
+    width: 25px; /* Fixed width for consistent alignment */
+    text-align: center;
+}
+
+.nav-link:hover {
+    background-color: var(--navbar-link-hover-bg);
+    color: white;
+}
+
+.nav-link.active {
+    background-color: var(--navbar-active-bg);
+    color: var(--navbar-active-color);
+    border-left-color: var(--navbar-active-color);
+    font-weight: 600;
+}
+
+.navbar-footer {
+    padding: 20px;
+    font-size: 0.9em;
+    text-align: center;
+    color: rgba(255, 255, 255, 0.6);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* --- Overlay Styles --- */
+.navbar-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Dark semi-transparent overlay */
+    z-index: 999; /* Below navbar, above content */
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity var(--transition-speed) ease, visibility var(--transition-speed) ease;
+}
+
+.navbar-overlay.visible {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* --- Main Content Styles --- */
+.main-content {
+    flex-grow: 1; /* Allows content to take remaining space */
+    padding: 30px;
+    transition: margin-left var(--transition-speed) ease;
+    color: var(--text-color-primary);
+    position: relative; /* For toggle button positioning */
+}
+
+.main-content h1 {
+    font-size: 2.5em;
+    margin-bottom: 20px;
+    color: var(--text-color-primary);
+}
+
+.main-content p {
+    font-size: 1.1em;
+    line-height: 1.7;
+    margin-bottom: 15px;
+    color: var(--text-color-secondary);
+}
+
+.toggle-btn {
+    background-color: var(--navbar-active-color);
+    color: white;
+    border: none;
+    padding: 12px 18px;
+    border-radius: 8px;
+    font-size: 1.5em;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    position: fixed; /* Fixed position */
+    top: 20px;
+    left: 20px;
+    z-index: 900; /* Ensure it's above content but below navbar */
+    transition: background-color 0.2s ease;
+}
+
+.toggle-btn:hover {
+    background-color: #2980b9;
+}
+
+.dummy-content {
+    margin-top: 40px;
+    background-color: white;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: var(--shadow-light);
+}
+
+
+/* --- Responsive Design --- */
+@media (max-width: 768px) {
+    .side-navbar {
+        width: 250px; /* Slightly narrower on smaller screens */
+    }
+
+    .navbar-header {
+        padding: 20px 15px;
+    }
+
+    .navbar-title {
+        font-size: 1.3em;
+    }
+
+    .nav-link {
+        padding: 12px 15px;
+        font-size: 1em;
+    }
+
+    .nav-icon {
+        font-size: 1.2em;
+        margin-right: 10px;
+    }
+
+    .main-content {
+        padding: 20px;
+    }
+
+    .main-content h1 {
+        font-size: 2em;
+    }
+
+    .main-content p {
+        font-size: 1em;
+    }
+
+    .toggle-btn {
+        padding: 10px 15px;
+        font-size: 1.3em;
+        top: 15px;
+        left: 15px;
+    }
+}
